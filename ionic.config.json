@@ -1,0 +1,7 @@
+{
+  "name": "EasySign",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
