@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { User } from 'src/app/models/user.model';
+import { FirebaseService } from 'src/app/services/firebase.service';
+import { UtilsService } from 'src/app/services/utils.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -14,13 +17,48 @@ export class ForgotPasswordPage implements OnInit {
   
     })
 
-  constructor() { }
+    utilsService = inject(UtilsService);
+    firebaseService = inject(FirebaseService)
+
 
   ngOnInit() {
   }
 
-  submit(){
-    console.log(this.form.value);
-  }
+  async submit() {
+      if (this.form.valid) {
+  
+        const loading = await this.utilsService.loading();
+  
+        await loading.present()
+  
+        this.firebaseService.sendRecoveryEmail(this.form.value.email)
+          .then(resp => {
+            this.utilsService.presentToast({
+              message: 'Revisa tu correo para cambiar la contraseña:',
+              duration: 2500,
+              color: 'primary',
+              position: 'bottom',
+              icon: 'mail-outline'
+            })
+
+            this.utilsService.routerlink('/auth')
+            this.form.reset()
+            
+          }).catch(error => {
+            console.log(error);
+            this.utilsService.presentToast({
+              message: 'Error ocurrido:' + error.message,
+              duration: 2500,
+              color: 'danger',
+              position: 'bottom',
+              icon: 'alert-circle-outline'
+            })
+            //Acá se finaliza el spinner
+          }).finally(() => {
+            loading.dismiss();
+          })
+      }
+  
+    }
 
 }

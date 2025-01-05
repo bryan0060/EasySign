@@ -1,4 +1,4 @@
-<ion-content>
+<ion-content class="background-color">
   <div class="d-flex-center">
     <form [formGroup]="form" (ngSubmit)="submit()" class="auth-form" (keypress.enter)="submit()">
 
@@ -30,14 +30,14 @@
 
       
 
-      <p routerLink="forgot-password" class="ion-text-end">¿Olvidaste la contraseña?</p>
+      <p routerLink="forgot-password" class="ion-text-end" style="color: white;">¿Olvidaste la contraseña?</p>
 
-      <ion-button class="submit" type="submit" expand="block" mode="ios" fill="outline" [disabled]="form.invalid">
+      <ion-button color="medium" class="submit" type="submit" expand="block" mode="ios" fill="solid" [disabled]="form.invalid">
         Ingresar
       </ion-button>
 
-      <ion-button routerLink="sign-up"
-       class="ion-margin-top" expand="block" mode="ios" fill="outline">
+      <ion-button routerLink="sign-up" color="medium" 
+       class="ion-margin-top" expand="block" mode="ios" fill="solid">
         Registrarse
       </ion-button>
       
